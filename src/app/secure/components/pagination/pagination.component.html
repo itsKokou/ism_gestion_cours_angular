@@ -1,0 +1,23 @@
+<div *ngIf="data.totalPages! > 1" class="flex rounded-lg justify-end px-4 py-2 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-600 dark:bg-gray-900"> 
+    <div class="flex col-span-4 mt-2 justify-end sm:mt-auto sm:justify-end">
+        <div class="Table navigation inline-flex items-center">
+        
+          <a *ngIf="data.hasPrev" (click)="paginate(data.currentPage!-1)" rel="prev" class="px-3 py-2 cursor-pointer border border-r-0 border-gray-400 rounded-l-lg text-red-600 bg-white focus:outline-none focus:shadow-outline-purple hover:bg-gray-300  ">&laquo;&nbsp;précédent</a>
+          <a *ngIf="data.hasPrev==false" class="px-3 py-2 border border-r-0 border-gray-400  rounded-l-lg focus:outline-none focus:shadow-outline-purple bg-white  disabled">&laquo;&nbsp;précédent</a>
+          @for (item of data.pages; track $index) {
+            <a *ngIf="data.currentPage != $index" (click)="paginate($index)"  class="px-3 py-2 cursor-pointer bg-white border hover:bg-gray-300 text-red-600  border-r-0 border-gray-400  focus:outline-none focus:shadow-outline-red">
+                {{$index+1}}     
+            </a> 
+            <span *ngIf="data.currentPage == $index" class="px-3 py-2 focus:outline-none focus:shadow-outline-r text-white transition-colors duration-150 bg-red-600 border border-r-0 border-red-600">
+              {{$index+1}} 
+            </span>
+          } 
+          <a *ngIf="data.hasNext" (click)="paginate(data.currentPage!+1)" rel="next" class= "px-3 cursor-pointer border bg-white text-red-600 border-r-0 border-gray-400 hover:bg-gray-300  py-2 rounded-r-lg focus:outline-none focus:shadow-outline-purple" >
+              suivant &nbsp;&raquo;
+          </a>
+    
+          <a *ngIf="data.hasNext==false" class="px-3 border border-r-0 border-gray-400  py-2 rounded-r-lg focus:outline-none bg-white focus:shadow-outline-purple disabled">suivant&nbsp;&raquo;</a>
+      
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,80 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" method="post" class="w-full rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800">
+    
+    <h4 class="mb-4 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Enregistrement d'étudiant
+    </h4>
+    <span style="color: #0ef700" class="transition-opacity duration-300 ease-in-out">
+        {{success}}
+    </span>
+    <span style="color: red" class="transition-opacity duration-300 ease-in-out">
+        {{echec}}
+    </span>
+    <span style="color: red" id="error" ></span>
+   <div class="px-4 py-3 mt-4 0">
+        <div  class="inline-flex mt-1 w-full">
+            <label for="nomComplet" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Nom  et prénom
+            </label>
+            <div style="padding-left:10%" class="w-full">
+              <input formControlName="nomComplet" type="text" id="nomComplet" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['nomComplet'].errors && (form.controls['nomComplet'].dirty || form.controls['nomComplet'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le nomComplet doit avoir au moins 4 caractères </small>
+        }
+        <div  class="inline-flex mt-5 w-full">
+            <label for="login" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Email
+            </label>
+            <div style="padding-left:10%" class="w-full">
+              <input formControlName="email" type="email" id="login" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+         @if (form.controls['email'].errors && (form.controls['email'].dirty || form.controls['email'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Veuillez saisir un email </small>
+        }
+        <div  class="inline-flex mt-5 w-full">
+            <label for="password" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Mot de passe
+            </label>
+            <div style="padding-left:10%" class="w-full">
+              <input formControlName="password" type="password" id="login" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['password'].errors && (form.controls['password'].dirty || form.controls['password'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le mot de passe doit avoir au moins 5 caractères </small>
+        }
+        <div  class="inline-flex mt-5 w-full">
+            <label for="tuteur" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Tuteur
+            </label>
+            <div style="padding-left:10%" class="w-full">
+              <input formControlName="tuteur" type="tuteur" id="login" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['tuteur'].errors && (form.controls['tuteur'].dirty || form.controls['tuteur'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le nom du tuteur doit avoir au moins 4 caractères </small>
+        }
+        <div *ngIf="isEdit" class="inline-flex mt-4 w-full">
+            <label class="mb-2 w-10" style="width:150px;"> </label>
+            <div style="padding-left: 10%" class="w-full inline-flex">
+                <input type="checkbox" name="" id="" class="rounded mt-1 w-3.5 h-3.5 mr-3">
+            <label for="" class="text-gray-900 dark:text-gray-400 ">Archivé</label>
+            </div>
+        </div>
+        <div class="inline-flex w-full mt-4">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full flex justify-end">
+                <button type="submit" [disabled]="form.invalid" class="px-4 cursor-pointer py-2 text-sm font-medium leading-5 text-red-600 transition-colors duration-150 bg-transparent border border-red-600 rounded-lg hover:text-white hover:bg-red-600 focus:outline-none focus:shadow-outline-red">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+

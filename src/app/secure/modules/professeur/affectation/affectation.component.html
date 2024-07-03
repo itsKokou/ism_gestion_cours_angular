@@ -1,0 +1,99 @@
+<form class="w-full rounded-lg px-4 py-3 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800">
+    
+    <h4 class="mb-4 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Enregistrement de professeur
+    </h4>
+    <span style="color: #0ef700" class="transition-opacity duration-300 ease-in-out">
+        {{success}}
+    </span>
+    <span style="color: red" class="transition-opacity duration-300 ease-in-out">
+        {{echec}}
+    </span>
+
+   <div class="px-4 py-3 mt-4 0">
+        
+        <div class="flex space-x-8 mb-4 border px-4 py-3 rounded">
+            <div style="width: 31.5%;">
+                <input type="text" [value]="professeur.nomComplet" readonly placeholder="Nom et prénom..." class="w-full px-4 h-10 bg-gray-200 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+
+            <div style="width: 31.5%;">
+                <input type="email" [value]="professeur.email" readonly placeholder="Email..." class="w-full px-4 h-10 bg-gray-200 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+
+            <div style="width: 31.5%;">
+                <input type="text" [value]="professeur.portable" readonly placeholder="Téléphone..." class="w-full px-4 h-10 bg-gray-200 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+
+        <div class="flex space-x-8 mb-4 border px-4 py-3 rounded">
+            <div style="width: 20%;">
+                <label for="">Choisis une classe</label>
+                <select2 [formControl]="selectClasse" class="select2 w-full h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    [overlay]="overlay"
+                    [data]="dataClasses"
+                    styleMode="borderless"
+                    title="Choisir les modules"
+                    >
+                </select2>
+
+            </div>
+             
+
+            <div style="width: 70%;">
+                <label for="">Choisis les modules à apprendre</label>
+                <select2 [formControl]="selectModule" class="select2 w-full h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    [overlay]="overlay"
+                    [data]="dataModules"
+                    [multiple]="true"
+                    styleMode="borderless"
+                    title="Choisir les modules"
+                    >
+                </select2>
+               
+            </div>
+
+            <div class=" justify-end">
+                <label for="" class=" text-white">ok</label>
+                <button [disabled]="selectModule.invalid || selectClasse.invalid" (click)="addEnseignement()" class="rounded-md border-2 border-green-600 px-4 py-1 font-medium text-green-600 transition-colors hover:bg-green-600 hover:text-white cursor-pointer">
+                    Ajouter
+                </button>
+            </div>
+        </div>
+        
+        <table  class="w-full mb-3  border border-collapse bg-white text-left text-sm text-gray-500">
+            <thead class=" bg-slate-300">
+                <th cope="col" class="border px-6 py-3 font-medium text-gray-900">Classe</th>
+                <th cope="col" class="border px-6 py-3 font-medium text-gray-900">Modules</th>
+            </thead>
+            <tbody class="divide-y divide-gray-100 border-t border-gray-100 text-blue-950">
+            @for (item of mesEnseignements; track $index) {
+                <tr >
+                    <td class="border px-6 py-2"> {{item.classe?.libelle}} </td>
+                    <td class="border px-6 py-2"> 
+                        <span > | </span>
+                        <span *ngFor="let module of item.modules">{{ module.libelle }} | </span>
+                    </td>
+                </tr>
+            }  
+            
+            </tbody>
+        </table>
+        
+        <div class="inline-flex w-full">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full flex justify-end">
+                <button [disabled]="mesEnseignements.length==0 || professeur==null" (click)="saveEnseignements()" type="submit" class="px-4 cursor-pointer py-2 text-sm font-medium leading-5 text-red-600 transition-colors duration-150 bg-transparent border border-red-600 rounded-lg hover:text-white hover:bg-red-600 focus:outline-none focus:shadow-outline-red">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+
+

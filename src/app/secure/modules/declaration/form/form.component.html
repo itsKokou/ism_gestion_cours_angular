@@ -1,0 +1,50 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-full rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800">
+    
+    <h4 class="mb-4 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Enregistrement de la demande
+    </h4>
+    <span style="color: #0ef700" class="transition-opacity duration-300 ease-in-out" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false }, 3000)">
+        {{success}}
+    </span>
+    <span style="color: red" class="transition-opacity duration-300 ease-in-out" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false }, 3000)">
+        {{echec}}
+    </span>
+   <div class="px-4 py-3 mt-4 0">    
+        <div  class="inline-flex mt-1 w-full text-gray-900 dark:text-gray-400" >
+            <label for="motif" class="mb-2  w-10">
+                Motif
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="motif" type="text" id="motif" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['motif'].errors && (form.controls['motif'].dirty || form.controls['motif'].touched)) {
+            <small class="ml-10" style="padding-left:10%; color: red">Le motif doit contenir au moins 5 caractères </small>
+        } 
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="description" class="mb-2  w-10">
+                Description
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <textarea formControlName="description" name="description" id="description" cols="20" rows="4" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"></textarea>
+            </div>
+        </div>
+        @if (form.controls['description'].errors && (form.controls['description'].dirty || form.controls['description'].touched)) {
+            <small class="ml-10" style="padding-left:10%; color: red">La description doit contenir au moins 10 caractères </small>
+        }
+        <div class="inline-flex w-full mt-4">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full flex justify-end">
+                <button type="submit" [disabled]="form.invalid" class="px-4 cursor-pointer py-2 text-sm font-medium leading-5 text-red-600 transition-colors duration-150 bg-transparent border border-red-600 rounded-lg hover:text-white hover:bg-red-600 focus:outline-none focus:shadow-outline-red">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+

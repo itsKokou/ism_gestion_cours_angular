@@ -1,0 +1,70 @@
+
+<form method="post" [formGroup]="form" (ngSubmit)="onSubmit()" class="w-full rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800">
+    
+    <h4 class="mb-4 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Enregistrement de semestre
+    </h4>
+    <span style="color: #0ef700" class="transition-opacity duration-300 ease-in-out">
+        {{success}}
+    </span>
+    <span style="color: red" class="transition-opacity duration-300 ease-in-out" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false }, 3000)">
+        {{echec}}
+    </span>
+    <span style="color: red" id="error" ></span>
+   <div class="px-4 py-3 mt-4 0">
+        <div  class="inline-flex mt-1 w-full text-gray-900 dark:text-gray-400" >
+            <label for="libelle" class="mb-2  w-10">
+                Libellé
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="libelle" type="text" id="libelle" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div> 
+        @if (form.controls['libelle'].errors && (form.controls['libelle'].dirty || form.controls['libelle'].touched)) {
+            <small class="ml-10" style="padding-left:10%; color: red">Le libelle doit contenir au moins 2 caractères </small>
+        }
+
+       <div  class="inline-flex mt-5 w-full">
+            <label for="niveau" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Niveau
+            </label>
+            <div style="padding-left:10%" class="w-full">
+                <select formControlName="niveau" name="niveau" id="niveau" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                    @for (item of niveaux?.results; track $index) {
+                    <option ngValue="{{item.id}}" [selected]="niveau.value==item.id"> {{item.libelle}} </option>
+                    }
+                </select>
+            </div>
+        </div>
+        @if (form.controls['niveau'].errors && (form.controls['niveau'].dirty || form.controls['niveau'].touched)) {
+            <small class="ml-10" style="padding-left:10%; color: red">Veuillez choisir le niveau associé </small>
+        }
+        <div class="inline-flex mt-4 mb-4 w-full">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full inline-flex">
+                <input formControlName="isActive" type="checkbox" name="" id="" class="rounded mt-1 w-3.5 h-3.5 mr-3">
+                <label for="" class="text-gray-900 dark:text-gray-400 ">Active</label>
+            </div>
+        </div>
+        <div *ngIf="isEdit" class="inline-flex mb-4 w-full">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full inline-flex">
+                <input formControlName="isArchived" type="checkbox" name="" id="" class="rounded mt-1 w-3.5 h-3.5 mr-3">
+            <label for="" class="text-gray-900 dark:text-gray-400 ">Archivé</label>
+            </div>
+        </div>
+        <div class="inline-flex w-full">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full flex justify-end">
+                <button [disabled]="form.controls['libelle'].invalid || form.controls['niveau'].invalid" type="submit" class="px-4 cursor-pointer py-2 text-sm font-medium leading-5 text-red-600 transition-colors duration-150 bg-transparent border border-red-600 rounded-lg hover:text-white hover:bg-red-600 focus:outline-none focus:shadow-outline-red">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+

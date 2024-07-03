@@ -1,0 +1,53 @@
+<div style="width: 900px;">
+    <h4 class="mb-4 mt-4 text-lg font-semibold text-gray-500 dark:text-white">
+        Le dossier de {{detailDossier.etudiant.nomComplet}}
+    </h4>
+    <div style="width:80%;" class="w-full flex overflow-hidden rounded-lg shadow-xs bg-gray-50 dark:bg-gray-700">
+        <div style="width:30%;">
+            <img src="assets/img/{{detailDossier.etudiant.photo}}" alt="" >
+        </div>
+        <div class="text-lg text-black dark:text-white text-left px-6 py-3">
+            <span class=" block">Année Scolaire :&nbsp;&nbsp;&nbsp;&nbsp;<strong >{{anneeEncours.libelle}}</strong></span>
+            <span class=" block">Nom Complet : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong >{{detailDossier.etudiant.nomComplet}} </strong></span>
+            <span class=" block">Matricule : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong > {{detailDossier.etudiant.matricule}} </strong></span>
+            <span class=" block">Email : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong >{{detailDossier.etudiant.email}} </strong></span>
+            <span class=" block">Tuteur : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong >{{detailDossier.etudiant.tuteur}} </strong></span>
+            <span class=" block">Classe : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong >{{detailDossier.classeActuelle}} </strong></span>
+        </div>
+       
+        <div class=" flex justify-center items-center" >
+            <qrcode [qrdata]="lienQrCode" [width]="100" [colorDark]="'#000000'" [colorLight]="'#f9fafb'" [errorCorrectionLevel]="'H'"></qrcode>
+        </div>
+    </div>
+    <h4 class="mb-4 w-fit text-left mt-4 text-lg font-semibold text-gray-500 dark:text-white">
+        Liste de ses Inscriptions
+    </h4>
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full whitespace-no-wrap">
+            <thead>
+                <tr
+                class="text-sm font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+                style="color:#eb1616;"
+                >
+                <th class="px-4 py-3">N°</th>
+                <th class="px-4 py-3">Date</th>
+                <th class="px-4 py-3">Classe</th>
+                <th class="px-4 py-3">Année Scolaire</th>
+                </tr>
+            </thead>
+                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
+                @for (item of detailDossier.inscriptions; track $index) {
+                    <tr class="text-gray-700 dark:text-gray-400" >
+                    <td class="px-4 py-3 text-sm" >{{item.id}}</td>
+                    <td class="px-4 py-3 text-sm" >{{item.date}}</td>
+                    <td class="px-4 py-3 text-sm" >{{item.classe}}</td>
+                    <td class="px-4 py-3 text-sm" >{{item.anneeScolaire}}</td>
+                  </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

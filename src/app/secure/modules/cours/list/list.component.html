@@ -1,0 +1,139 @@
+
+<div class="flex justify-end" *ngIf="connectedUser.roles.includes('ROLE_RP') || connectedUser.roles.includes('ROLE_ADMIN')">
+  <a routerLink="new/form" class="px-4 py-2 text-base font-medium leading-5 text-cyan-500 transition-colors duration-150 bg-transparent border-2 border-cyan-500 rounded-lg hover:text-white hover:bg-cyan-500">
+    Nouveau
+  </a>
+</div>
+<div class="w-full flex">
+    <form style="width: 80%;" class="w-auto rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-900">
+      <div  class="inline-flex mt-1 mb-2 w-full justify-center">
+        <div style="width: 38%; margin-right:80px;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="select-cours-classe" class="block mb-2 font-medium text-gray-900 dark:text-white">Classe</label>
+          <select #classeSelect (change)="filterByClasse(+classeSelect.value)" id="select-cours-classe"  style="width:80%;" class=" bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value='0'>All</option>
+            @for (item of classes; track $index) {
+              <option [value]="item.id"> {{item.libelle}} </option> 
+            } 
+          </select>
+        </div>
+        <div style="width: 38%; margin-right:80px;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="select-cours-semestre" class="block mb-2 font-medium text-gray-900 dark:text-white">Semestre</label>
+          <select #semestreSelect (change)="filterBySemestre(+semestreSelect.value)" id="select-cours-semestre" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value='0'>All</option>
+               @for (item of semestres?.results; track $index) {
+                <option [value]="item.id"> {{item.libelle}} </option>
+               }
+          </select>
+        </div>
+        <div style="width: 38%;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="select-cours-etat" class="block mb-2 font-medium text-gray-900 dark:text-white">Etat</label>
+          <select #etatSelect (change)="filterByEtat(etatSelect.value)" id="select-cours-etat" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value=''>All</option>
+            <option value="Encours">En cours</option>  
+            <option value="Termine">Terminé</option>  
+          </select>
+        </div>
+      </div>
+    </form>
+</div>
+  <h4 class="mb-4 mt-4 text-left text-lg font-semibold text-gray-600 dark:text-white">
+    Liste des Cours de {{anneeEncours.libelle}}
+  </h4>
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+            style="color:#eb1616;"
+          >
+            <th class="px-4 py-3">N°</th>
+            <th class="px-4 py-3">Enregistré le</th>
+            <th class="px-4 py-3">Module</th>
+            <th class="px-4 py-3">Professeur</th>
+            <th class="px-4 py-3">Classe(s)</th>
+            <th class="px-4 py-3">Semestre</th>
+            <th class="px-4 py-3">Heure Totale</th>
+            <th class="px-4 py-3">Planifié</th>
+            <th class="px-4 py-3">Réalisé</th>
+            <th class="px-4 py-3">Etat</th>
+            <th class="px-4 py-3"  *ngIf="connectedUser.roles.includes('ROLE_RP') || connectedUser.roles.includes('ROLE_ADMIN')"
+            >Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900">
+          @for (item of response?.results; track $index) {
+            <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm"> {{item.id}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.date}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.module.libelle}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.professeur.nomComplet}} </td>
+                <td class="px-4 py-3 text-sm">
+                  <span > | </span>
+                  <span *ngFor="let cl of item.classes" >{{ cl.libelle }} | </span>
+                </td>
+                <td class="px-4 py-3 text-sm"> {{item.semestre.libelle}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.nbreHeureTotal}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.nbreHeurePlanifie}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.nbreHeureRealise}} </td>
+                <td class="px-6 py-4 text-sm" >
+                    <span *ngIf="item.etat=='Encours'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-green-50 text-green-600">
+                      <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>En cours
+                    </span>
+                    <span *ngIf="item.etat=='Termine'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-orange-50 text-orange-600">
+                      <span class="h-1.5 w-1.5 rounded-full bg-orange-600"></span>Terminé
+                    </span>
+                </td>
+                <td class="px-4 py-3" *ngIf="connectedUser.roles.includes('ROLE_RP') || connectedUser.roles.includes('ROLE_ADMIN')">
+                    <div class="flex items-center space-x-4 text-sm">
+                        <a (click)="archiverCours(item.id)" >
+                        <button id="archiverInscription" data-path=""
+                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-red-500 border rounded-md border-red-500 hover:bg-red-500 hover:text-white"
+                          aria-label="Edit"
+                          >
+                            <svg
+                              class="w-5 h-5"
+                              aria-hidden="true"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>Archiver
+                        </button>
+                        </a>
+                        <a routerLink="/admin/seance/{{item.id}}/form"  class="bg-cyan-500 text-white hover:bg-cyan-700 border rounded-md border-cyan-500 ">
+                        <button
+                        class=" flex items-center px-2 py-2 text-sm font-medium leading-5"
+                        aria-label="Planifier"
+                        >
+                        <svg
+                            class="w-5 h-5"
+                            aria-hidden="true"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                            fill-rule="evenodd"
+                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
+                            ></path>
+                        </svg>Planifier
+                        </button>
+                        </a>        
+                    </div>
+                </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div> 
+  <app-pagination [data]="dataPagination" (onGetPageNumber)="paginate($event)"></app-pagination> 
+
+
+

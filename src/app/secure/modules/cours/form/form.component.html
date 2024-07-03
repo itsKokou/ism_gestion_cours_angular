@@ -1,0 +1,111 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-full rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800">
+    
+    <h4 class="mb-4 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Enregistrement de cours
+    </h4>
+    <span style="color: #0ef700" class="transition-opacity duration-300 ease-in-out" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false }, 3000)">
+        {{success}}
+    </span>
+    <span style="color: red" class="transition-opacity duration-300 ease-in-out" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false }, 3000)">
+        {{echec}}
+    </span>
+   <div class="px-4 py-3 mt-4 0">
+        <div  class="inline-flex mt-1 w-full">
+            <label for="semestre" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Semestre
+            </label>
+            <div style="padding-left:10%" class="w-full">
+                <select formControlName="semestre" (change)="chooseSemestre()" id="semestre" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                    @for (item of semestres?.results; track $index) {
+                        <option [value]="item.id"> {{item.libelle}} </option>
+                    }
+                </select>
+            </div>
+        </div>
+        @if (form.controls['semestre'].errors && (form.controls['semestre'].dirty || form.controls['semestre'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le semestre est obligatoire </small>
+        } 
+        <div  class="inline-flex mt-5 w-full">
+            <label for="module" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Module
+            </label>
+            <div style="padding-left:10%" class="w-full">
+                <select formControlName="module" (change)="chooseModule()" id="module" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                    @for (item of modules?.results; track $index) {
+                        <option [value]="item.id"> {{item.libelle}} </option>
+                    }
+                </select>
+            </div>
+        </div>
+        @if (form.controls['module'].errors && (form.controls['module'].dirty || form.controls['module'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le module est obligatoire </small>
+        }
+        <div  class="inline-flex mt-5 w-full">
+            <label for="professeur" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Professeur
+            </label>
+            <div style="padding-left:10%" class="w-full">
+                <select formControlName="professeur" (change)="chooseProfesseur()" id="professeur" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                    @for (item of professeurs?.results; track $index) {
+                        <option [value]="item.id"> {{item.nomComplet}} </option>
+                    }
+                </select>
+            </div>
+        </div> 
+        @if (form.controls['professeur'].errors && (form.controls['professeur'].dirty || form.controls['professeur'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le professeur est obligatoire </small>
+        }   
+
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="totalHeure" class="mb-2  w-10" style="width:150px;">
+                Total heure
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="nbreHeureTotal" type="number" id="totalHeure" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['nbreHeureTotal'].errors && (form.controls['nbreHeureTotal'].dirty || form.controls['nbreHeureTotal'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">L'heure totale doit être supérieure ou égale à 12</small>
+        }
+
+        <div  class="inline-flex mt-5 w-full">
+            <label for="classe" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Classes
+            </label>
+            <div style="padding-left:10%" class="w-full">
+                <select2 formControlName="classes" class="select2 w-full h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    [overlay]="overlay"
+                    [data]="dataClasses"
+                    [multiple]="true"
+                    placeholder="Choisissez au moins une classe"
+                    styleMode="borderless"
+                    title="Choisir les modules"
+                    >
+                </select2>
+            </div>
+        </div>  
+        @if (form.controls['classes'].errors && (form.controls['classes'].dirty || form.controls['classes'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Choisissez au moins une classe</small>
+        }
+        <div *ngIf="isEdit" class="inline-flex mt-4 w-full">
+            <label class="mb-2 w-10" style="width:150px;"> </label>
+            <div style="padding-left: 10%" class="w-full inline-flex">
+                <input formControlName="isArchived" type="checkbox" id="ar" class="rounded mt-1 w-3.5 h-3.5 mr-3">
+            <label for="ar" class="text-gray-900 dark:text-gray-400 ">Archivé</label>
+            </div>
+        </div>
+        <div class="inline-flex w-full mt-4">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full flex justify-end">
+                <button type="submit" [disabled]="form.invalid" class="px-4 cursor-pointer py-2 text-sm font-medium leading-5 text-red-600 transition-colors duration-150 bg-transparent border border-red-600 rounded-lg hover:text-white hover:bg-red-600 focus:outline-none focus:shadow-outline-red">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
